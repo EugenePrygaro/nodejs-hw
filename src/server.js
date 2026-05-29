@@ -8,18 +8,16 @@ import { errorHandler } from './middleware/errorHandler.js';
 
 import notesRoutes from './routes/notesRoutes.js';
 
+const PORT = process.env.PORT ?? 3000;
+
+app.use(logger);
+app.use(cors());
 const app = express();
 app.use(
   express.json({
     limit: '100kb',
   }),
 );
-const PORT = process.env.PORT ?? 3000;
-
-// Глобальні middleware
-app.use(logger);
-app.use(cors());
-app.use(express.json());
 
 app.use(notesRoutes);
 
