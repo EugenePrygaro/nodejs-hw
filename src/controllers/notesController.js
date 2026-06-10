@@ -38,8 +38,8 @@ export const getAllNotes = async (req, res) => {
     page,
     perPage,
     totalNotes,
-    totalPages,
     notes,
+    totalPages,
   });
 };
 
