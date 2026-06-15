@@ -1,7 +1,7 @@
 import createHttpError from 'http-errors';
 import { User } from '../models/user.js';
 import { Session } from '../models/session.js';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import { createSession, setSessionCookies } from '../services/auth.js';
 
 export const registerUser = async (req, res) => {
@@ -14,6 +14,7 @@ export const registerUser = async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = new User({ email, password: hashedPassword });
+  await newUser.save();
   const newSession = await createSession(newUser._id);
   setSessionCookies(res, newSession);
   res.status(201).json(newUser);
