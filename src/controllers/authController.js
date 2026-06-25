@@ -145,13 +145,13 @@ export const requestResetEmail = async (req, res, next) => {
 };
 
 export const resetPassword = async (req, res) => {
-  const { token, newPassword } = req.body;
+  const { token, password } = req.body;
 
   let decodedToken;
   try {
     decodedToken = jwt.verify(token, process.env.JWT_SECRET);
   } catch {
-    throw createHttpError(400, 'Invalid or expired token');
+    throw createHttpError(401, 'Invalid or expired token');
   }
 
   const user = await User.findOne({
@@ -162,7 +162,7 @@ export const resetPassword = async (req, res) => {
     throw createHttpError(404, 'User not found');
   }
 
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
   await User.updateOne({ _id: user._id }, { password: hashedPassword });
   await Session.deleteMany({ userId: user._id });
   res.status(200).json({

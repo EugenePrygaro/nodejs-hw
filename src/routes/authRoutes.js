@@ -21,12 +21,12 @@ router.post('/auth/login', celebrate(loginUserSchema), loginUser);
 router.post('/auth/logout', logoutUser);
 router.post('/auth/refresh', refreshUserSession);
 router.post(
-  '/auth/reset-password',
+  '/auth/request-reset-email',
   celebrate(requestResetEmailSchema),
   requestResetEmail,
 );
 router.post(
-  '/auth/reset-password/confirm',
+  '/auth/reset-password',
   celebrate(resetPasswordSchema),
   resetPassword,
 );
